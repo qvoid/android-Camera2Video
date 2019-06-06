@@ -1,0 +1,10 @@
+*.iml
+.gradle
+/local.properties
+/.idea/
+.DS_Store
+/build
+/captures
+Application/build
+Application/Application.iml
+android-Camera2Video.iml
