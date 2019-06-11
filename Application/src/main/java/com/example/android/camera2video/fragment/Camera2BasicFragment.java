@@ -12,10 +12,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *//*
+ */
 
-
-package com.example.android.camera2video;
+package com.example.android.camera2video.fragment;
 
 import android.Manifest;
 import android.app.Activity;
@@ -60,6 +59,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.example.android.camera2video.AutoFitTextureView;
+import com.example.android.camera2video.R;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -75,11 +77,9 @@ import java.util.concurrent.TimeUnit;
 public class Camera2BasicFragment extends Fragment
         implements View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
 
-    */
-/**
+    /**
      * Conversion from screen rotation to JPEG orientation.
-     *//*
-
+     */
     private static final SparseIntArray ORIENTATIONS = new SparseIntArray();
     private static final int REQUEST_CAMERA_PERMISSION = 1;
     private static final String FRAGMENT_DIALOG = "dialog";
@@ -91,68 +91,50 @@ public class Camera2BasicFragment extends Fragment
         ORIENTATIONS.append(Surface.ROTATION_270, 180);
     }
 
-    */
-/**
+    /**
      * Tag for the {@link Log}.
-     *//*
-
+     */
     private static final String TAG = "Camera2BasicFragment";
 
-    */
-/**
+    /**
      * Camera state: Showing camera preview.
-     *//*
-
+     */
     private static final int STATE_PREVIEW = 0;
 
-    */
-/**
+    /**
      * Camera state: Waiting for the focus to be locked.
-     *//*
-
+     */
     private static final int STATE_WAITING_LOCK = 1;
 
-    */
-/**
+    /**
      * Camera state: Waiting for the exposure to be precapture state.
-     *//*
-
+     */
     private static final int STATE_WAITING_PRECAPTURE = 2;
 
-    */
-/**
+    /**
      * Camera state: Waiting for the exposure state to be something other than precapture.
-     *//*
-
+     */
     private static final int STATE_WAITING_NON_PRECAPTURE = 3;
 
-    */
-/**
+    /**
      * Camera state: Picture was taken.
-     *//*
-
+     */
     private static final int STATE_PICTURE_TAKEN = 4;
 
-    */
-/**
+    /**
      * Max preview width that is guaranteed by Camera2 API
-     *//*
-
+     */
     private static final int MAX_PREVIEW_WIDTH = 1920;
 
-    */
-/**
+    /**
      * Max preview height that is guaranteed by Camera2 API
-     *//*
-
+     */
     private static final int MAX_PREVIEW_HEIGHT = 1080;
 
-    */
-/**
+    /**
      * {@link TextureView.SurfaceTextureListener} handles several lifecycle events on a
      * {@link TextureView}.
-     *//*
-
+     */
     private final TextureView.SurfaceTextureListener mSurfaceTextureListener
             = new TextureView.SurfaceTextureListener() {
 
@@ -177,46 +159,34 @@ public class Camera2BasicFragment extends Fragment
 
     };
 
-    */
-/**
+    /**
      * ID of the current {@link CameraDevice}.
-     *//*
-
+     */
     private String mCameraId;
 
-    */
-/**
+    /**
      * An {@link AutoFitTextureView} for camera preview.
-     *//*
-
+     */
     private AutoFitTextureView mTextureView;
 
-    */
-/**
+    /**
      * A {@link CameraCaptureSession } for camera preview.
-     *//*
-
+     */
     private CameraCaptureSession mCaptureSession;
 
-    */
-/**
+    /**
      * A reference to the opened {@link CameraDevice}.
-     *//*
-
+     */
     private CameraDevice mCameraDevice;
 
-    */
-/**
-     * The {@link Size} of camera preview.
-     *//*
-
+    /**
+     * The {@link android.util.Size} of camera preview.
+     */
     private Size mPreviewSize;
 
-    */
-/**
+    /**
      * {@link CameraDevice.StateCallback} is called when {@link CameraDevice} changes its state.
-     *//*
-
+     */
     private final CameraDevice.StateCallback mStateCallback = new CameraDevice.StateCallback() {
 
         @Override
@@ -247,40 +217,30 @@ public class Camera2BasicFragment extends Fragment
 
     };
 
-    */
-/**
+    /**
      * An additional thread for running tasks that shouldn't block the UI.
-     *//*
-
+     */
     private HandlerThread mBackgroundThread;
 
-    */
-/**
+    /**
      * A {@link Handler} for running tasks in the background.
-     *//*
-
+     */
     private Handler mBackgroundHandler;
 
-    */
-/**
+    /**
      * An {@link ImageReader} that handles still image capture.
-     *//*
-
+     */
     private ImageReader mImageReader;
 
-    */
-/**
+    /**
      * This is the output file for our picture.
-     *//*
-
+     */
     private File mFile;
 
-    */
-/**
+    /**
      * This a callback object for the {@link ImageReader}. "onImageAvailable" will be called when a
      * still image is ready to be saved.
-     *//*
-
+     */
     private final ImageReader.OnImageAvailableListener mOnImageAvailableListener
             = new ImageReader.OnImageAvailableListener() {
 
@@ -291,55 +251,41 @@ public class Camera2BasicFragment extends Fragment
 
     };
 
-    */
-/**
+    /**
      * {@link CaptureRequest.Builder} for the camera preview
-     *//*
-
+     */
     private CaptureRequest.Builder mPreviewRequestBuilder;
 
-    */
-/**
+    /**
      * {@link CaptureRequest} generated by {@link #mPreviewRequestBuilder}
-     *//*
-
+     */
     private CaptureRequest mPreviewRequest;
 
-    */
-/**
+    /**
      * The current state of camera state for taking pictures.
      *
      * @see #mCaptureCallback
-     *//*
-
+     */
     private int mState = STATE_PREVIEW;
 
-    */
-/**
+    /**
      * A {@link Semaphore} to prevent the app from exiting before closing the camera.
-     *//*
-
+     */
     private Semaphore mCameraOpenCloseLock = new Semaphore(1);
 
-    */
-/**
+    /**
      * Whether the current camera device supports Flash or not.
-     *//*
-
+     */
     private boolean mFlashSupported;
 
-    */
-/**
+    /**
      * Orientation of the camera sensor
-     *//*
-
+     */
     private int mSensorOrientation;
 
-    */
-/**
+    /**
      * A {@link CameraCaptureSession.CaptureCallback} that handles events related to JPEG capture.
-     *//*
-
+     */
     private CameraCaptureSession.CaptureCallback mCaptureCallback
             = new CameraCaptureSession.CaptureCallback() {
 
@@ -405,13 +351,11 @@ public class Camera2BasicFragment extends Fragment
 
     };
 
-    */
-/**
+    /**
      * Shows a {@link Toast} on the UI thread.
      *
      * @param text The message to show
-     *//*
-
+     */
     private void showToast(final String text) {
         final Activity activity = getActivity();
         if (activity != null) {
@@ -424,8 +368,7 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    */
-/**
+    /**
      * Given {@code choices} of {@code Size}s supported by a camera, choose the smallest one that
      * is at least as large as the respective texture view size, and that is at most as large as the
      * respective max size, and whose aspect ratio matches with the specified value. If such size
@@ -440,10 +383,9 @@ public class Camera2BasicFragment extends Fragment
      * @param maxHeight         The maximum height that can be chosen
      * @param aspectRatio       The aspect ratio
      * @return The optimal {@code Size}, or an arbitrary one if none were big enough
-     *//*
-
+     */
     private static Size chooseOptimalSize(Size[] choices, int textureViewWidth,
-            int textureViewHeight, int maxWidth, int maxHeight, Size aspectRatio) {
+                                          int textureViewHeight, int maxWidth, int maxHeight, Size aspectRatio) {
 
         // Collect the supported resolutions that are at least as big as the preview Surface
         List<Size> bigEnough = new ArrayList<>();
@@ -455,7 +397,7 @@ public class Camera2BasicFragment extends Fragment
             if (option.getWidth() <= maxWidth && option.getHeight() <= maxHeight &&
                     option.getHeight() == option.getWidth() * h / w) {
                 if (option.getWidth() >= textureViewWidth &&
-                    option.getHeight() >= textureViewHeight) {
+                        option.getHeight() >= textureViewHeight) {
                     bigEnough.add(option);
                 } else {
                     notBigEnough.add(option);
@@ -534,22 +476,20 @@ public class Camera2BasicFragment extends Fragment
                                            @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CAMERA_PERMISSION) {
             if (grantResults.length != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                ErrorDialog.buildErrorDialog(getString(R.string.permission_request))
-                        .show(getFragmentManager(), FRAGMENT_DIALOG);
+                ErrorDialog.newInstance(getString(R.string.permission_request))
+                        .show(getChildFragmentManager(), FRAGMENT_DIALOG);
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
-    */
-/**
+    /**
      * Sets up member variables related to camera.
      *
      * @param width  The width of available size for camera preview
      * @param height The height of available size for camera preview
-     *//*
-
+     */
     @SuppressWarnings("SuspiciousNameCombination")
     private void setUpCameraOutputs(int width, int height) {
         Activity activity = getActivity();
@@ -576,9 +516,7 @@ public class Camera2BasicFragment extends Fragment
                         Arrays.asList(map.getOutputSizes(ImageFormat.JPEG)),
                         new CompareSizesByArea());
                 mImageReader = ImageReader.newInstance(largest.getWidth(), largest.getHeight(),
-                        ImageFormat.JPEG, */
-/*maxImages*//*
-2);
+                        ImageFormat.JPEG, /*maxImages*/2);
                 mImageReader.setOnImageAvailableListener(
                         mOnImageAvailableListener, mBackgroundHandler);
 
@@ -656,16 +594,14 @@ public class Camera2BasicFragment extends Fragment
         } catch (NullPointerException e) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
-            ErrorDialog.buildErrorDialog(getString(R.string.camera_error))
+            ErrorDialog.newInstance(getString(R.string.camera_error))
                     .show(getChildFragmentManager(), FRAGMENT_DIALOG);
         }
     }
 
-    */
-/**
+    /**
      * Opens the camera specified by {@link Camera2BasicFragment#mCameraId}.
-     *//*
-
+     */
     private void openCamera(int width, int height) {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -688,11 +624,9 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    */
-/**
+    /**
      * Closes the current {@link CameraDevice}.
-     *//*
-
+     */
     private void closeCamera() {
         try {
             mCameraOpenCloseLock.acquire();
@@ -715,22 +649,18 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    */
-/**
+    /**
      * Starts a background thread and its {@link Handler}.
-     *//*
-
+     */
     private void startBackgroundThread() {
         mBackgroundThread = new HandlerThread("CameraBackground");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
     }
 
-    */
-/**
+    /**
      * Stops the background thread and its {@link Handler}.
-     *//*
-
+     */
     private void stopBackgroundThread() {
         mBackgroundThread.quitSafely();
         try {
@@ -742,11 +672,9 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    */
-/**
+    /**
      * Creates a new {@link CameraCaptureSession} for camera preview.
-     *//*
-
+     */
     private void createCameraPreviewSession() {
         try {
             SurfaceTexture texture = mTextureView.getSurfaceTexture();
@@ -804,16 +732,14 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    */
-/**
-     * Configures the necessary {@link Matrix} transformation to `mTextureView`.
+    /**
+     * Configures the necessary {@link android.graphics.Matrix} transformation to `mTextureView`.
      * This method should be called after the camera preview size is determined in
      * setUpCameraOutputs and also the size of `mTextureView` is fixed.
      *
      * @param viewWidth  The width of `mTextureView`
      * @param viewHeight The height of `mTextureView`
-     *//*
-
+     */
     private void configureTransform(int viewWidth, int viewHeight) {
         Activity activity = getActivity();
         if (null == mTextureView || null == mPreviewSize || null == activity) {
@@ -839,20 +765,16 @@ public class Camera2BasicFragment extends Fragment
         mTextureView.setTransform(matrix);
     }
 
-    */
-/**
+    /**
      * Initiate a still image capture.
-     *//*
-
+     */
     private void takePicture() {
         lockFocus();
     }
 
-    */
-/**
+    /**
      * Lock the focus as the first step for a still image capture.
-     *//*
-
+     */
     private void lockFocus() {
         try {
             // This is how to tell the camera to lock focus.
@@ -867,12 +789,10 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    */
-/**
+    /**
      * Run the precapture sequence for capturing a still image. This method should be called when
      * we get a response in {@link #mCaptureCallback} from {@link #lockFocus()}.
-     *//*
-
+     */
     private void runPrecaptureSequence() {
         try {
             // This is how to tell the camera to trigger.
@@ -887,12 +807,10 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    */
-/**
+    /**
      * Capture a still picture. This method should be called when we get a response in
      * {@link #mCaptureCallback} from both {@link #lockFocus()}.
-     *//*
-
+     */
     private void captureStillPicture() {
         try {
             final Activity activity = getActivity();
@@ -934,14 +852,12 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    */
-/**
+    /**
      * Retrieves the JPEG orientation from the specified screen rotation.
      *
      * @param rotation The screen rotation.
      * @return The JPEG orientation (one of 0, 90, 270, and 360)
-     *//*
-
+     */
     private int getOrientation(int rotation) {
         // Sensor orientation is 90 for most devices, or 270 for some devices (eg. Nexus 5X)
         // We have to take that into account and rotate JPEG properly.
@@ -950,12 +866,10 @@ public class Camera2BasicFragment extends Fragment
         return (ORIENTATIONS.get(rotation) + mSensorOrientation + 270) % 360;
     }
 
-    */
-/**
+    /**
      * Unlock the focus. This method should be called when still image capture sequence is
      * finished.
-     *//*
-
+     */
     private void unlockFocus() {
         try {
             // Reset the auto-focus trigger
@@ -1000,24 +914,18 @@ public class Camera2BasicFragment extends Fragment
         }
     }
 
-    */
-/**
+    /**
      * Saves a JPEG {@link Image} into the specified {@link File}.
-     *//*
-
+     */
     private static class ImageSaver implements Runnable {
 
-        */
-/**
+        /**
          * The JPEG image
-         *//*
-
+         */
         private final Image mImage;
-        */
-/**
+        /**
          * The file we save the image into.
-         *//*
-
+         */
         private final File mFile;
 
         ImageSaver(Image image, File file) {
@@ -1050,11 +958,9 @@ public class Camera2BasicFragment extends Fragment
 
     }
 
-    */
-/**
+    /**
      * Compares two {@code Size}s based on their areas.
-     *//*
-
+     */
     static class CompareSizesByArea implements Comparator<Size> {
 
         @Override
@@ -1066,11 +972,41 @@ public class Camera2BasicFragment extends Fragment
 
     }
 
-    */
-/**
-     * Shows OK/Cancel confirmation dialog about camera permission.
-     *//*
+    /**
+     * Shows an error message dialog.
+     */
+    public static class ErrorDialog extends DialogFragment {
 
+        private static final String ARG_MESSAGE = "message";
+
+        public static ErrorDialog newInstance(String message) {
+            ErrorDialog dialog = new ErrorDialog();
+            Bundle args = new Bundle();
+            args.putString(ARG_MESSAGE, message);
+            dialog.setArguments(args);
+            return dialog;
+        }
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            final Activity activity = getActivity();
+            return new AlertDialog.Builder(activity)
+                    .setMessage(getArguments().getString(ARG_MESSAGE))
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            activity.finish();
+                        }
+                    })
+                    .create();
+        }
+
+    }
+
+    /**
+     * Shows OK/Cancel confirmation dialog about camera permission.
+     */
     public static class ConfirmationDialog extends DialogFragment {
 
         @NonNull
@@ -1101,4 +1037,3 @@ public class Camera2BasicFragment extends Fragment
     }
 
 }
-*/

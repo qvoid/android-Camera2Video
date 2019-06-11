@@ -3,8 +3,8 @@ package com.example.android.camera2video;
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
+
+import com.example.android.camera2video.fragment.FragmentManagerUtil;
 
 public class MainActivity extends Activity {
 

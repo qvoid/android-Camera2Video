@@ -1,4 +1,4 @@
-package com.example.android.camera2video;
+package com.example.android.camera2video.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -6,6 +6,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
 import android.util.Log;
+
+import com.example.android.camera2video.R;
 
 /**
  * Created by johnson on 6/11/19.
