@@ -1521,40 +1521,6 @@ public class Camera2RawFragment extends Fragment
     }
 
     /**
-     * A dialog fragment for displaying non-recoverable errors; this {@ling Activity} will be
-     * finished once the dialog has been acknowledged by the user.
-     */
-    public static class ErrorDialog extends DialogFragment {
-
-        private String mErrorMessage;
-
-        public ErrorDialog() {
-            mErrorMessage = "Unknown error occurred!";
-        }
-
-        // Build a dialog with a custom message (Fragments require default constructor).
-        public static ErrorDialog buildErrorDialog(String errorMessage) {
-            ErrorDialog dialog = new ErrorDialog();
-            dialog.mErrorMessage = errorMessage;
-            return dialog;
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            final Activity activity = getActivity();
-            return new AlertDialog.Builder(activity)
-                    .setMessage(mErrorMessage)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            activity.finish();
-                        }
-                    })
-                    .create();
-        }
-    }
-
-    /**
      * A wrapper for an {@link AutoCloseable} object that implements reference counting to allow
      * for resource management.
      */
